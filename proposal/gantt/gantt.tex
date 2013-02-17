@@ -1,0 +1,99 @@
+\documentclass[landscape]{standalone}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{tikz}
+\usepackage{pgfgantt}
+\usepackage{helvet}
+\renewcommand\familydefault{\sfdefault}
+
+\pagestyle{empty}
+
+\begin{document}
+
+\begin{tikzpicture}
+  \colorlet{android-color}{green!30}
+  \colorlet{data-mgmt-color}{red!30}
+  \colorlet{data-sim-color}{blue!30}
+  \begin{ganttchart}
+    [
+      x unit=1.3cm,
+      y unit title=.4cm,
+      y unit chart=.7cm,
+      title label anchor/.style={below=-1.5ex},
+      hgrid style/.style={help lines},
+      vgrid={help lines},
+      bar/.style={draw=none,fill=black!20},
+      title/.style={draw=none},
+      canvas/.style={draw=none},
+    ]{11}
+    \gantttitle{February}{3}
+    \gantttitle{March}{4}
+    \gantttitle{April}{4}
+    \\
+    \gantttitle{2/11--17} {1}
+    \gantttitle{2/19--24} {1}
+    \gantttitle{2/25--3/3}{1}
+    \gantttitle{3/4--10}  {1}
+    \gantttitle{3/11--17} {1}
+    \gantttitle{3/18--24} {1}
+    \gantttitle{3/25--31} {1}
+    \gantttitle{4/1--7}   {1}
+    \gantttitle{4/8--14}  {1}
+    \gantttitle{4/15--21} {1}
+    \gantttitle{4/22--27} {1}
+    \\
+    % Android
+    \ganttset{bar/.style={draw=none,fill=android-color}}
+    \ganttbar{UX decisions, screens}{1}{1} \\
+    \ganttbar{Implement user interface}{2}{5} \\
+    \ganttbar{Google maps integration}{5}{5} \\
+    \ganttbar{Infrastructure integration}{7}{9} \\
+    \ganttbar{Testing}{9}{11} \\[grid]
+    % Data processing and management
+    \ganttset{bar/.style={draw=none,fill=data-mgmt-color}}
+    \ganttbar{Decisions on schema}{2}{2} \\
+    \ganttbar{Decisions on tech}{2}{3} \\
+    \ganttbar{Build, install server}{4}{5} \\
+    \ganttbar{Research data prediction}{1}{5} \\
+    \ganttbar{Web service schemas}{4}{4} \\
+    \ganttbar{Web service implementation}{5}{7} \\
+    \ganttbar{Testing}{9}{11} \\[grid]
+    % Data Generation/Simulation
+    \ganttset{bar/.style={draw=none,fill=data-sim-color}}
+    \ganttbar{Research real datasets}{1}{4} \\
+    \ganttbar{Research stochastic models}{1}{4} \\
+    \ganttbar{Implement generation tool}{5}{6}
+  \end{ganttchart}
+
+  % \draw[help lines, step=.2cm] (-6, -12) grid (10, 0);
+  \begin{scope}
+    [
+      on grid,
+      node distance=.25cm,
+      point/.style={inner sep=1pt, circle, fill=red},
+      block/.style=
+        {
+          rotate=90,
+          align=center,
+          minimum width=1.1in,
+          text depth=.5ex,
+          rounded corners=5pt,
+          font=\large,
+      },
+      android/.style={block,fill=android-color, draw=android-color!80!black},
+      mgmt/.style={block,fill=data-mgmt-color, draw=data-mgmt-color!80!black},
+      sim/.style={block,fill=data-sim-color, draw=data-sim-color!80!black},
+    ]
+    \begin{scope}[opacity=0]
+      \node[point] at (1, -2.54) (android-loc) {};
+      \node[point, below=4.20 of android-loc] (mgmt-loc) {};
+      \node[point, below=3.5 of mgmt-loc] (sim-loc) {};
+    \end{scope}
+    \node[android, left=6.5 of android-loc] (android) {Android\\ App};
+    \node[mgmt] at (android|-mgmt-loc) (data) {Data\\ Management};
+    \node[sim]  at (android|-sim-loc)  (sim) {Data\\ Simulation};
+  \end{scope}
+\end{tikzpicture}
+
+
+\end{document}
